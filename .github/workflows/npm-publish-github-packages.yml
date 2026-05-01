@@ -1,0 +1,33 @@
+name: Deploy React Frontend
+
+on:
+  push:
+    branches:
+      - main  # or 'master' depending on your branch name
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/checkout@v4
+        with:
+          node-version: 18
+
+      - name: Install and Build
+        run: |
+          cd frontend
+          npm install
+          npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: frontend/dist # Use 'frontend/build' if it's a standard React app
+          branch: gh-pages
