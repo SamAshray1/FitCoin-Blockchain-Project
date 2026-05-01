@@ -3,7 +3,7 @@ name: Deploy React Frontend
 on:
   push:
     branches:
-      - main  # or 'master' depending on your branch name
+      - main
 
 permissions:
   contents: write
@@ -16,9 +16,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/checkout@v4
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
 
       - name: Install and Build
         run: |
@@ -29,5 +31,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: frontend/dist # Use 'frontend/build' if it's a standard React app
+          folder: frontend/build  # Changed from 'dist' to 'build'
           branch: gh-pages
